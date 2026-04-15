@@ -1,0 +1,456 @@
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#0b1120;--panel:#131c2e;--panel2:#1a2540;--border:rgba(148,163,184,0.12);
+--accent:#6366f1;--accent2:#818cf8;--teal:#14b8a6;--green:#22c55e;
+--amber:#f59e0b;--red:#ef4444;--purple:#a855f7;--pink:#ec4899;
+--text:#e2e8f0;--muted:#64748b;--muted2:#94a3b8;
+}
+body{background:var(--bg);color:var(--text);font-family:system-ui,sans-serif;font-size:13px;padding-bottom:32px;}
+
+.header{background:var(--panel);border-bottom:1px solid var(--border);padding:16px 20px;}
+.hrow{display:flex;align-items:flex-start;gap:14px;}
+.avatar{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#7c3aed);
+display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0;}
+.hinfo{flex:1;}
+.hname{font-size:20px;font-weight:700;color:#fff;letter-spacing:-0.3px;}
+.htitle{font-size:11px;color:var(--muted2);margin-top:2px;}
+.hcontact{font-size:10px;color:var(--muted);margin-top:3px;font-family:monospace;}
+.hscore{text-align:right;flex-shrink:0;}
+.score-num{font-size:32px;font-weight:800;color:#818cf8;line-height:1;}
+.score-label{font-size:10px;color:var(--muted2);margin-top:2px;}
+
+.cert-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.cert{font-size:9px;padding:3px 9px;border-radius:20px;font-weight:600;font-family:monospace;letter-spacing:0.3px;}
+.c-pmp{background:rgba(99,102,241,0.15);color:#a5b4fc;border:1px solid rgba(99,102,241,0.3);}
+.c-safe{background:rgba(20,184,166,0.15);color:#5eead4;border:1px solid rgba(20,184,166,0.3);}
+.c-aipo{background:rgba(168,85,247,0.15);color:#d8b4fe;border:1px solid rgba(168,85,247,0.3);}
+.c-gai{background:rgba(245,158,11,0.15);color:#fde68a;border:1px solid rgba(245,158,11,0.3);}
+.c-net{background:rgba(59,130,246,0.15);color:#93c5fd;border:1px solid rgba(59,130,246,0.3);}
+.c-aws{background:rgba(245,158,11,0.12);color:#fcd34d;border:1px solid rgba(245,158,11,0.25);}
+.c-duke{background:rgba(236,72,153,0.12);color:#f9a8d4;border:1px solid rgba(236,72,153,0.25);}
+
+.nav{display:flex;gap:2px;background:var(--panel);border-bottom:1px solid var(--border);padding:6px 20px 0;overflow-x:auto;}
+.tab{padding:7px 13px;border-radius:6px 6px 0 0;font-size:11px;font-weight:600;cursor:pointer;
+background:transparent;color:var(--muted2);border:none;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;}
+.tab:hover{color:var(--text);}
+.tab.on{color:var(--accent2);border-bottom-color:var(--accent2);}
+
+.body{padding:18px 20px;}
+.sec{display:none;} .sec.on{display:block;}
+
+.kgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px;}
+.kcard{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:13px;position:relative;overflow:hidden;}
+.kcard::before{content:'';position:absolute;left:0;top:0;width:3px;height:100%;border-radius:10px 0 0 10px;}
+.kcard.kp::before{background:var(--accent);}
+.kcard.kg::before{background:var(--green);}
+.kcard.ka::before{background:var(--amber);}
+.kcard.kr::before{background:var(--red);}
+.klabel{font-size:9px;color:var(--muted2);text-transform:uppercase;letter-spacing:1px;font-family:monospace;}
+.kval{font-size:26px;font-weight:800;margin-top:3px;line-height:1;}
+.kcard.kp .kval{color:#818cf8;} .kcard.kg .kval{color:#4ade80;}
+.kcard.ka .kval{color:#fbbf24;} .kcard.kr .kval{color:#f87171;}
+.ksub{font-size:10px;color:var(--muted);margin-top:2px;}
+
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:14px;}
+.pcard{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px;}
+.ptitle{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted2);
+margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.ptitle .dot{width:6px;height:6px;border-radius:50%;}
+
+.tl{position:relative;padding-left:18px;}
+.tl::before{content:'';position:absolute;left:4px;top:6px;bottom:0;width:1px;background:var(--border);}
+.tli{position:relative;margin-bottom:13px;}
+.tld{position:absolute;left:-17px;top:3px;width:7px;height:7px;border-radius:50%;}
+.tld.p{background:var(--accent);} .tld.g{background:var(--green);}
+.tld.a{background:var(--amber);} .tld.r{background:var(--red);}
+.tld.t{background:var(--teal);}
+.tlt{font-size:11px;font-weight:600;color:var(--text);}
+.tlm{font-size:10px;color:var(--muted2);margin-top:1px;font-family:monospace;}
+
+.bar-item{margin-bottom:12px;}
+.bar-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.bar-name{font-size:12px;font-weight:600;}
+.bar-pct{font-size:11px;color:var(--muted2);font-family:monospace;}
+.bar-track{background:rgba(255,255,255,0.06);border-radius:4px;height:5px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:4px;}
+
+.rtable{width:100%;border-collapse:collapse;table-layout:fixed;}
+.rtable th{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);font-family:monospace;
+padding:0 6px 8px;text-align:left;border-bottom:1px solid var(--border);}
+.rtable td{padding:8px 6px;border-bottom:1px solid rgba(148,163,184,0.06);font-size:11px;vertical-align:top;}
+.rtable tr:last-child td{border-bottom:none;}
+.rtable tr:hover td{background:rgba(99,102,241,0.04);}
+.rb{padding:2px 7px;border-radius:4px;font-size:9px;font-weight:600;font-family:monospace;white-space:nowrap;}
+.rb-cr{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.25);}
+.rb-hi{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.25);}
+.rb-md{background:rgba(99,102,241,0.15);color:#a5b4fc;border:1px solid rgba(99,102,241,0.25);}
+.rb-lo{background:rgba(34,197,94,0.15);color:#86efac;border:1px solid rgba(34,197,94,0.25);}
+.rb-op{background:rgba(239,68,68,0.1);color:#f87171;padding:2px 7px;border-radius:4px;font-size:9px;}
+.rb-ip{background:rgba(245,158,11,0.1);color:#fbbf24;padding:2px 7px;border-radius:4px;font-size:9px;}
+.rb-cl{background:rgba(34,197,94,0.1);color:#86efac;padding:2px 7px;border-radius:4px;font-size:9px;}
+.dtag{font-size:9px;padding:2px 6px;border-radius:3px;background:rgba(168,85,247,0.1);
+color:#d8b4fe;border:1px solid rgba(168,85,247,0.2);font-family:monospace;white-space:nowrap;}
+
+.fw-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+.fw-card{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:12px;cursor:pointer;transition:all .2s;}
+.fw-card:hover{border-color:rgba(99,102,241,0.3);transform:translateY(-1px);}
+.fw-name{font-size:12px;font-weight:700;color:#fff;margin-bottom:4px;}
+.fw-desc{font-size:10px;color:var(--muted2);line-height:1.5;}
+.fw-stat{margin-top:8px;display:flex;align-items:center;gap:5px;font-size:10px;}
+.sd{width:5px;height:5px;border-radius:50%;}
+
+.ai-wrap{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;
+display:flex;gap:8px;align-items:center;margin-top:14px;}
+.ai-inp{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:12px;}
+.ai-inp::placeholder{color:var(--muted);}
+.ai-btn{background:var(--accent);border:none;border-radius:6px;padding:5px 12px;color:#fff;
+font-size:11px;font-weight:700;cursor:pointer;transition:opacity .2s;}
+.ai-btn:hover{opacity:.85;}
+.ai-resp{background:rgba(99,102,241,0.06);border:1px solid rgba(99,102,241,0.15);
+border-radius:8px;padding:12px;margin-top:10px;font-size:12px;line-height:1.7;display:none;}
+.dots{display:inline-flex;gap:3px;align-items:center;}
+.dots span{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:bop .8s infinite;}
+.dots span:nth-child(2){animation-delay:.2s;} .dots span:nth-child(3){animation-delay:.4s;}
+@keyframes bop{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+.qbtn{font-size:10px;font-weight:600;padding:5px 10px;border-radius:5px;cursor:pointer;
+background:rgba(99,102,241,0.1);color:#a5b4fc;border:1px solid rgba(99,102,241,0.2);transition:all .2s;}
+.qbtn:hover{background:rgba(99,102,241,0.2);}
+
+.ach-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px;}
+.ach-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;}
+.ach-num{font-size:28px;font-weight:800;}
+.ach-card:nth-child(1) .ach-num{color:#4ade80;}
+.ach-card:nth-child(2) .ach-num{color:#818cf8;}
+.ach-card:nth-child(3) .ach-num{color:#fbbf24;}
+.ach-label{font-size:10px;color:var(--muted2);margin-top:4px;line-height:1.4;}
+
+.exp-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;}
+.exp-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px;}
+.exp-role{font-size:13px;font-weight:700;color:#fff;}
+.exp-co{font-size:11px;color:var(--accent2);margin-top:2px;}
+.exp-date{font-size:10px;color:var(--muted);font-family:monospace;}
+.exp-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;}
+.exp-tag{font-size:9px;padding:2px 7px;border-radius:4px;font-weight:600;}
+.tag-g{background:rgba(34,197,94,0.1);color:#86efac;}
+.tag-b{background:rgba(59,130,246,0.1);color:#93c5fd;}
+.tag-p{background:rgba(168,85,247,0.1);color:#d8b4fe;}
+.tag-a{background:rgba(245,158,11,0.1);color:#fcd34d;}
+.tag-t{background:rgba(20,184,166,0.1);color:#5eead4;}
+</style>
+
+<div class="header">
+  <div class="hrow">
+    <div class="avatar">JP</div>
+    <div class="hinfo">
+      <div class="hname">Joanne Paul</div>
+      <div class="htitle">Senior GRC Professional &mdash; AI Risk &bull; Compliance &bull; Project Management &bull; Data Privacy</div>
+      <div class="hcontact">New Jersey &nbsp;&bull;&nbsp; 347-221-4518 &nbsp;&bull;&nbsp; j_paul1976@hotmail.com &nbsp;&bull;&nbsp; linkedin.com/in/joanne-paul-763117279</div>
+      <div class="cert-row">
+        <span class="cert c-pmp">PMP &mdash; PMI</span>
+        <span class="cert c-safe">SAFe Scrum Master</span>
+        <span class="cert c-aipo">AI &amp; Agile Methodologies</span>
+        <span class="cert c-duke">AI Product Owner &mdash; Duke</span>
+        <span class="cert c-gai">Google AI Essentials</span>
+        <span class="cert c-net">CompTIA Network+</span>
+        <span class="cert c-aws">AWS Cloud Practitioner</span>
+        <span class="cert c-aipo">AI GP Certified</span>
+      </div>
+    </div>
+    <div class="hscore">
+      <div class="score-num">89<span style="font-size:14px">%</span></div>
+      <div class="score-label">GRC Posture Score</div>
+      <div style="font-size:9px;color:var(--muted);margin-top:4px;">25+ yrs experience</div>
+    </div>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="tab on" onclick="go('dashboard',this)">Dashboard</button>
+  <button class="tab" onclick="go('experience',this)">My Profile</button>
+  <button class="tab" onclick="go('risk',this)">Risk Register</button>
+  <button class="tab" onclick="go('compliance',this)">Compliance</button>
+  <button class="tab" onclick="go('frameworks',this)">Frameworks</button>
+  <button class="tab" onclick="go('advisor',this)">AI Advisor</button>
+</div>
+
+<div class="body">
+
+<div class="sec on" id="s-dashboard">
+  <div class="kgrid">
+    <div class="kcard kp"><div class="klabel">Open Risks</div><div class="kval">22</div><div class="ksub">Across all sectors</div></div>
+    <div class="kcard kr"><div class="klabel">Critical Items</div><div class="kval">4</div><div class="ksub">Immediate action needed</div></div>
+    <div class="kcard kg"><div class="klabel">Controls Passed</div><div class="kval">148</div><div class="ksub">of 166 total</div></div>
+    <div class="kcard ka"><div class="klabel">Compliance Score</div><div class="kval">89<span style="font-size:14px">%</span></div><div class="ksub">+4% this quarter</div></div>
+  </div>
+  <div class="ach-grid">
+    <div class="ach-card"><div class="ach-num">50%</div><div class="ach-label">Operational efficiency gain via risk-based process optimization</div></div>
+    <div class="ach-card"><div class="ach-num">30%</div><div class="ach-label">Claims resolution time reduction through compliance-driven workflows</div></div>
+    <div class="ach-card"><div class="ach-num">90%</div><div class="ach-label">Customer retention via regulatory-aligned engagement programs</div></div>
+  </div>
+  <div class="two">
+    <div class="pcard">
+      <div class="ptitle"><div class="dot" style="background:var(--red)"></div>Active Risk Events</div>
+      <div class="tl">
+        <div class="tli"><div class="tld r"></div><div class="tlt">AI hallucination risk in medical sector tools</div><div class="tlm">CRITICAL &bull; AI RMF &bull; Medical</div></div>
+        <div class="tli"><div class="tld r"></div><div class="tlt">ChatGPT / Copilot PII exposure via employee prompts</div><div class="tlm">CRITICAL &bull; Data Privacy &bull; AI Tools</div></div>
+        <div class="tli"><div class="tld a"></div><div class="tlt">FedRAMP control gap &mdash; cloud infrastructure</div><div class="tlm">HIGH &bull; FedRAMP &bull; Cloud</div></div>
+        <div class="tli"><div class="tld a"></div><div class="tlt">ISO 27001 Annex A &mdash; access management gap</div><div class="tlm">HIGH &bull; ISO 27001</div></div>
+        <div class="tli"><div class="tld p"></div><div class="tlt">AI model bias in insurance fraud detection</div><div class="tlm">MEDIUM &bull; AI Ethics &bull; Insurance</div></div>
+        <div class="tli"><div class="tld g"></div><div class="tlt">SEC compliance filing audit &mdash; completed</div><div class="tlm">LOW &bull; SOX &bull; Financial Services</div></div>
+      </div>
+    </div>
+    <div class="pcard">
+      <div class="ptitle"><div class="dot" style="background:var(--teal)"></div>Framework Compliance Progress</div>
+      <div class="bar-item"><div class="bar-top"><span class="bar-name">NIST AI RMF 1.0</span><span class="bar-pct">93%</span></div><div class="bar-track"><div class="bar-fill" style="width:93%;background:#818cf8"></div></div></div>
+      <div class="bar-item"><div class="bar-top"><span class="bar-name">ISO/IEC 27001:2022</span><span class="bar-pct">87%</span></div><div class="bar-track"><div class="bar-fill" style="width:87%;background:#4ade80"></div></div></div>
+      <div class="bar-item"><div class="bar-top"><span class="bar-name">HIPAA Security Rule</span><span class="bar-pct">79%</span></div><div class="bar-track"><div class="bar-fill" style="width:79%;background:#fbbf24"></div></div></div>
+      <div class="bar-item"><div class="bar-top"><span class="bar-name">FedRAMP Moderate</span><span class="bar-pct">65%</span></div><div class="bar-track"><div class="bar-fill" style="width:65%;background:#f87171"></div></div></div>
+      <div class="bar-item"><div class="bar-top"><span class="bar-name">NIST CSF 2.0</span><span class="bar-pct">90%</span></div><div class="bar-track"><div class="bar-fill" style="width:90%;background:#5eead4"></div></div></div>
+      <div class="bar-item"><div class="bar-top"><span class="bar-name">SOX Compliance</span><span class="bar-pct">95%</span></div><div class="bar-track"><div class="bar-fill" style="width:95%;background:#d8b4fe"></div></div></div>
+      <div class="bar-item"><div class="bar-top"><span class="bar-name">GDPR / Data Privacy</span><span class="bar-pct">82%</span></div><div class="bar-track"><div class="bar-fill" style="width:82%;background:#f9a8d4"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="sec" id="s-experience">
+  <div class="exp-grid">
+    <div class="exp-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div><div class="exp-role">Fire Claims Adjuster</div><div class="exp-co">Enservio &mdash; New Jersey</div></div>
+        <div class="exp-date">06/2023 &ndash; 11/2024</div>
+      </div>
+      <div style="font-size:10px;color:var(--muted2);margin-top:8px;line-height:1.6;">
+        Managed full claims lifecycle with regulatory compliance focus. Conducted fraud risk assessments. Developed internal control frameworks. Used data analytics to identify trends and strengthen compliance posture. Maintained audit-ready documentation.
+      </div>
+      <div class="exp-tags">
+        <span class="exp-tag tag-g">Risk Assessment</span>
+        <span class="exp-tag tag-b">Internal Controls</span>
+        <span class="exp-tag tag-p">Fraud Detection</span>
+        <span class="exp-tag tag-a">Data Analytics</span>
+        <span class="exp-tag tag-t">Audit Readiness</span>
+      </div>
+    </div>
+    <div class="exp-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div><div class="exp-role">Solar Sales Associate</div><div class="exp-co">Sunrun &mdash; New Jersey</div></div>
+        <div class="exp-date">06/2022 &ndash; 05/2023</div>
+      </div>
+      <div style="font-size:10px;color:var(--muted2);margin-top:8px;line-height:1.6;">
+        Delivered compliance-focused client consultations. Pre-installation risk assessments covering safety, regulatory, and environmental factors. Led post-installation audits verifying energy code compliance.
+      </div>
+      <div class="exp-tags">
+        <span class="exp-tag tag-g">Compliance Consulting</span>
+        <span class="exp-tag tag-b">Regulatory Risk</span>
+        <span class="exp-tag tag-a">Environmental Compliance</span>
+        <span class="exp-tag tag-t">Post-Audit Review</span>
+      </div>
+    </div>
+    <div class="exp-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div><div class="exp-role">International Trainer</div><div class="exp-co">PhiAcademy &mdash; Europe</div></div>
+        <div class="exp-date">01/2020 &ndash; 01/2022</div>
+      </div>
+      <div style="font-size:10px;color:var(--muted2);margin-top:8px;line-height:1.6;">
+        Designed global compliance training programs tailored to international regulations. Partnered with executive leadership to establish governance frameworks. Conducted training effectiveness evaluations across multiple countries.
+      </div>
+      <div class="exp-tags">
+        <span class="exp-tag tag-p">Global Training</span>
+        <span class="exp-tag tag-g">Governance Frameworks</span>
+        <span class="exp-tag tag-b">International Compliance</span>
+        <span class="exp-tag tag-t">Executive Partnership</span>
+      </div>
+    </div>
+    <div class="exp-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div><div class="exp-role">Owner &amp; Spa Director</div><div class="exp-co">Inked by Joanne Medical Spa &mdash; New Jersey</div></div>
+        <div class="exp-date">01/2016 &ndash; 12/2020</div>
+      </div>
+      <div style="font-size:10px;color:var(--muted2);margin-top:8px;line-height:1.6;">
+        Full operational leadership with compliance focus. Routine compliance audits and inspections. Financial risk management through budgeting and internal controls. Built compliance-first team culture.
+      </div>
+      <div class="exp-tags">
+        <span class="exp-tag tag-a">Operations Leadership</span>
+        <span class="exp-tag tag-g">Health &amp; Safety Compliance</span>
+        <span class="exp-tag tag-b">Financial Risk Mgmt</span>
+        <span class="exp-tag tag-p">Internal Auditing</span>
+      </div>
+    </div>
+    <div class="exp-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div><div class="exp-role">Project Manager</div><div class="exp-co">RR Donnelley Financial</div></div>
+        <div class="exp-date">03/1999 &ndash; 01/2016</div>
+      </div>
+      <div style="font-size:10px;color:var(--muted2);margin-top:8px;line-height:1.6;">
+        17-year tenure managing regulatory compliance filings for financial services clients. SEC rule adherence. Cross-functional coordination with auditors and legal teams. Developed risk mitigation strategies for evolving regulatory requirements.
+      </div>
+      <div class="exp-tags">
+        <span class="exp-tag tag-g">SEC Compliance</span>
+        <span class="exp-tag tag-b">SOX</span>
+        <span class="exp-tag tag-p">Financial Services GRC</span>
+        <span class="exp-tag tag-a">Project Management</span>
+        <span class="exp-tag tag-t">Regulatory Filings</span>
+      </div>
+    </div>
+  </div>
+  <div class="pcard" style="margin-top:14px;">
+    <div class="ptitle"><div class="dot" style="background:var(--accent)"></div>Education</div>
+    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;">
+      <div style="background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:12px;">
+        <div style="font-size:12px;font-weight:700;color:#fff;">Dual B.S. &amp; M.S. &mdash; Business Management</div>
+        <div style="font-size:10px;color:var(--accent2);margin-top:3px;">Western Governors University</div>
+      </div>
+      <div style="background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:12px;">
+        <div style="font-size:12px;font-weight:700;color:#fff;">A.S. &mdash; Business Administration</div>
+        <div style="font-size:10px;color:var(--accent2);margin-top:3px;">Kingsborough Community College &mdash; 05/2003</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sec" id="s-risk">
+  <div class="kgrid">
+    <div class="kcard kr"><div class="klabel">Critical</div><div class="kval">4</div></div>
+    <div class="kcard ka"><div class="klabel">High</div><div class="kval">8</div></div>
+    <div class="kcard kp"><div class="klabel">Medium</div><div class="kval">7</div></div>
+    <div class="kcard kg"><div class="klabel">Low</div><div class="kval">3</div></div>
+  </div>
+  <div class="pcard">
+    <div class="ptitle"><div class="dot" style="background:var(--red)"></div>Risk Register &mdash; All Sectors</div>
+    <div style="overflow-x:auto;">
+    <table class="rtable">
+      <thead><tr><th style="width:52px">ID</th><th style="width:220px">Risk</th><th style="width:90px">Domain</th><th style="width:72px">Severity</th><th style="width:80px">Status</th><th>Framework</th></tr></thead>
+      <tbody>
+        <tr><td style="font-family:monospace;color:var(--muted2)">R-001</td><td>AI hallucination producing erroneous medical guidance</td><td><span class="dtag">AI &bull; Medical</span></td><td><span class="rb rb-cr">CRITICAL</span></td><td><span class="rb-op rb">OPEN</span></td><td style="font-size:10px;color:var(--muted2)">NIST AI RMF</td></tr>
+        <tr><td style="font-family:monospace;color:var(--muted2)">R-002</td><td>PII/PHI submitted to ChatGPT &amp; Copilot by employees</td><td><span class="dtag">AI &bull; Privacy</span></td><td><span class="rb rb-cr">CRITICAL</span></td><td><span class="rb-ip rb">IN PROG</span></td><td style="font-size:10px;color:var(--muted2)">HIPAA &bull; GDPR</td></tr>
+        <tr><td style="font-family:monospace;color:var(--muted2)">R-003</td><td>FedRAMP control gaps in cloud infrastructure</td><td><span class="dtag">Cloud &bull; Gov</span></td><td><span class="rb rb-cr">CRITICAL</span></td><td><span class="rb-ip rb">IN PROG</span></td><td style="font-size:10px;color:var(--muted2)">FedRAMP</td></tr>
+        <tr><td style="font-family:monospace;color:var(--muted2)">R-004</td><td>AI bias in insurance fraud detection model</td><td><span class="dtag">AI &bull; Insurance</span></td><td><span class="rb rb-cr">CRITICAL</span></td><td><span class="rb-op rb">OPEN</span></td><td style="font-size:10px;color:var(--muted2)">AI RMF &bull; Ethics</td></tr>
+        <tr><td style="font-family:monospace;color:var(--muted2)">R-005</td><td>ISO 27001 Annex A access management control gap</td><td><span class="dtag">ISO 27001</span></td><td><span class="rb rb-hi">HIGH</span></td><td><span class="rb-op rb">OPEN</span></td><td style="font-size:10px;color:var(--muted2)">ISO 27001</td></tr>
+        <tr><td style="font-family:monospace;color:var(--muted2)">R-006</td><td>Shadow AI tools used without security review</td><td><span class="dtag">AI &bull; Policy</span></td><td><span class="rb rb-hi">HIGH</span></td><td><span class="rb-op rb">OPEN</span></td><td style="font-size:10px;color:var(--muted2)">AI RMF &bull; CSF</td></tr>
+        <tr><td style="font-family:monospace;color:var(--muted2)">R-007</td><td>Banking AI model explainability deficit (XAI)</td><td><span class="dtag">AI &bull; Banking</span></td><td><span class="rb rb-hi">HIGH</span></td><td><span class="rb-ip rb">IN PROG</span></td><td style="font-size:10px;color:var(--muted2)">AI RMF &bull; NIST</td></tr>
+        <tr><td style="font-family:monospace;color:var(--muted2)">R-008</td><td>Third-party AI vendor data retention violations</td><td><span class="dtag">Privacy &bull; Vendor</span></td><td><span class="rb rb-hi">HIGH</span></td><td><span class="rb-op rb">OPEN</span></td><td style="font-size:10px;color:var(--muted2)">GDPR &bull; HIPAA</td></tr>
+        <tr><td style="font-family:monospace;color:var(--muted2)">R-009</td><td>SOX internal control documentation gaps</td><td><span class="dtag">SOX &bull; Finance</span></td><td><span class="rb rb-md">MEDIUM</span></td><td><span class="rb-ip rb">IN PROG</span></td><td style="font-size:10px;color:var(--muted2)">SOX</td></tr>
+        <tr><td style="font-family:monospace;color:var(--muted2)">R-010</td><td>Network segmentation gaps in AWS cloud env</td><td><span class="dtag">Cloud &bull; Network</span></td><td><span class="rb rb-md">MEDIUM</span></td><td><span class="rb-cl rb">CLOSED</span></td><td style="font-size:10px;color:var(--muted2)">AWS &bull; NIST CSF</td></tr>
+        <tr><td style="font-family:monospace;color:var(--muted2)">R-011</td><td>Vendor ethics management policy not current</td><td><span class="dtag">Ethics &bull; Vendor</span></td><td><span class="rb rb-md">MEDIUM</span></td><td><span class="rb-ip rb">IN PROG</span></td><td style="font-size:10px;color:var(--muted2)">ISO 27001</td></tr>
+        <tr><td style="font-family:monospace;color:var(--muted2)">R-012</td><td>Incident management SLA breach &mdash; IT security</td><td><span class="dtag">IT Sec &bull; Ops</span></td><td><span class="rb rb-lo">LOW</span></td><td><span class="rb-cl rb">CLOSED</span></td><td style="font-size:10px;color:var(--muted2)">NIST CSF</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<div class="sec" id="s-compliance">
+  <div class="two">
+    <div class="pcard">
+      <div class="ptitle"><div class="dot" style="background:var(--accent)"></div>Framework Scores &mdash; Joanne's Portfolio</div>
+      <div class="bar-item"><div class="bar-top"><span class="bar-name">SOX Compliance</span><span class="bar-pct" style="color:#d8b4fe">95%</span></div><div class="bar-track"><div class="bar-fill" style="width:95%;background:#a855f7"></div></div><div style="font-size:10px;color:var(--muted);margin-top:2px;">17 yrs SEC filings &mdash; RR Donnelley</div></div>
+      <div class="bar-item"><div class="bar-top"><span class="bar-name">NIST AI RMF 1.0</span><span class="bar-pct" style="color:#818cf8">93%</span></div><div class="bar-track"><div class="bar-fill" style="width:93%;background:#6366f1"></div></div><div style="font-size:10px;color:var(--muted);margin-top:2px;">AI Product Owner &bull; Duke Certified</div></div>
+      <div class="bar-item"><div class="bar-top"><span class="bar-name">NIST CSF 2.0</span><span class="bar-pct" style="color:#5eead4">90%</span></div><div class="bar-track"><div class="bar-fill" style="width:90%;background:#14b8a6"></div></div><div style="font-size:10px;color:var(--muted);margin-top:2px;">Network+ &bull; AWS Cloud Practitioner</div></div>
+      <div class="bar-item"><div class="bar-top"><span class="bar-name">ISO/IEC 27001:2022</span><span class="bar-pct" style="color:#4ade80">87%</span></div><div class="bar-track"><div class="bar-fill" style="width:87%;background:#22c55e"></div></div></div>
+      <div class="bar-item"><div class="bar-top"><span class="bar-name">GDPR / Data Privacy</span><span class="bar-pct" style="color:#f9a8d4">82%</span></div><div class="bar-track"><div class="bar-fill" style="width:82%;background:#ec4899"></div></div></div>
+      <div class="bar-item"><div class="bar-top"><span class="bar-name">HIPAA Security Rule</span><span class="bar-pct" style="color:#fbbf24">79%</span></div><div class="bar-track"><div class="bar-fill" style="width:79%;background:#f59e0b"></div></div><div style="font-size:10px;color:var(--muted);margin-top:2px;">Medical Spa operations background</div></div>
+      <div class="bar-item"><div class="bar-top"><span class="bar-name">FedRAMP Moderate</span><span class="bar-pct" style="color:#f87171">65%</span></div><div class="bar-track"><div class="bar-fill" style="width:65%;background:#ef4444"></div></div><div style="font-size:10px;color:var(--muted);margin-top:2px;">Active remediation &mdash; priority item</div></div>
+    </div>
+    <div class="pcard">
+      <div class="ptitle"><div class="dot" style="background:var(--amber)"></div>Upcoming Audit Calendar</div>
+      <div class="tl">
+        <div class="tli"><div class="tld p"></div><div class="tlt">ISO 27001 Surveillance Audit</div><div class="tlm">Jan 15, 2026 &bull; External Auditor</div></div>
+        <div class="tli"><div class="tld r"></div><div class="tlt">FedRAMP Annual 3PAO Assessment</div><div class="tlm">Feb 3, 2026 &bull; A-LIGN</div></div>
+        <div class="tli"><div class="tld a"></div><div class="tlt">HIPAA Internal Privacy Audit</div><div class="tlm">Feb 20, 2026 &bull; Privacy Officer</div></div>
+        <div class="tli"><div class="tld g"></div><div class="tlt">NIST AI RMF Board Review</div><div class="tlm">Mar 1, 2026 &bull; AI Ethics Committee</div></div>
+        <div class="tli"><div class="tld t"></div><div class="tlt">SOX Internal Controls Review</div><div class="tlm">Mar 10, 2026 &bull; Finance GRC</div></div>
+        <div class="tli"><div class="tld p"></div><div class="tlt">AWS Cloud Security Assessment (CIS)</div><div class="tlm">Apr 1, 2026 &bull; Cloud Ops</div></div>
+        <div class="tli"><div class="tld g"></div><div class="tlt">NIST CSF 2.0 Maturity Review</div><div class="tlm">Apr 15, 2026 &bull; Internal GRC</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sec" id="s-frameworks">
+  <div class="fw-grid" style="margin-bottom:14px;">
+    <div class="fw-card"><div class="fw-name">NIST AI RMF 1.0</div><div class="fw-desc">GOVERN, MAP, MEASURE, MANAGE. Core framework for AI system risk across banking, insurance &amp; medical. Joanne holds AI Product Owner (Duke) and AI GP certifications.</div><div class="fw-stat"><div class="sd" style="background:var(--green)"></div><span style="color:#4ade80">93% &mdash; Strong</span></div></div>
+    <div class="fw-card"><div class="fw-name">ISO/IEC 27001:2022</div><div class="fw-desc">93 Annex A controls &mdash; organizational, people, physical &amp; technical. Access management gap (R-005) is active remediation item.</div><div class="fw-stat"><div class="sd" style="background:var(--green)"></div><span style="color:#4ade80">87% &mdash; On Track</span></div></div>
+    <div class="fw-card"><div class="fw-name">HIPAA Security Rule</div><div class="fw-desc">Administrative, Physical &amp; Technical safeguards for PHI. AI tool risk (R-002) is primary exposure. Medical spa background provides sector depth.</div><div class="fw-stat"><div class="sd" style="background:var(--amber)"></div><span style="color:#fbbf24">79% &mdash; Monitoring</span></div></div>
+    <div class="fw-card"><div class="fw-name">FedRAMP Moderate</div><div class="fw-desc">325 controls &bull; 17 control families for US government cloud services. Priority remediation &mdash; 3PAO audit Feb 2026. Leverages AWS Cloud Practitioner knowledge.</div><div class="fw-stat"><div class="sd" style="background:var(--red)"></div><span style="color:#f87171">65% &mdash; Remediation Active</span></div></div>
+    <div class="fw-card"><div class="fw-name">SOX Compliance</div><div class="fw-desc">Sarbanes-Oxley internal controls &amp; financial reporting. 17-year RR Donnelley financial services background. Highest maturity framework in portfolio.</div><div class="fw-stat"><div class="sd" style="background:var(--green)"></div><span style="color:#4ade80">95% &mdash; Mature</span></div></div>
+    <div class="fw-card"><div class="fw-name">NIST CSF 2.0</div><div class="fw-desc">GOVERN, IDENTIFY, PROTECT, DETECT, RESPOND, RECOVER. Supported by CompTIA Network+ and AWS Cloud Practitioner certifications.</div><div class="fw-stat"><div class="sd" style="background:var(--green)"></div><span style="color:#4ade80">90% &mdash; Strong</span></div></div>
+  </div>
+  <div class="pcard">
+    <div class="ptitle"><div class="dot" style="background:var(--accent)"></div>NIST AI RMF &mdash; Joanne's Core Functions</div>
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;">
+      <div style="background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:8px;padding:12px;"><div style="font-size:11px;font-weight:700;color:#a5b4fc;margin-bottom:4px;">GOVERN</div><div style="font-size:10px;color:var(--muted2);line-height:1.5;">AI risk culture, accountability, policies &amp; ethics management</div></div>
+      <div style="background:rgba(20,184,166,0.08);border:1px solid rgba(20,184,166,0.2);border-radius:8px;padding:12px;"><div style="font-size:11px;font-weight:700;color:#5eead4;margin-bottom:4px;">MAP</div><div style="font-size:10px;color:var(--muted2);line-height:1.5;">Context, categorize AI risks, stakeholder &amp; impact analysis</div></div>
+      <div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:8px;padding:12px;"><div style="font-size:11px;font-weight:700;color:#fde68a;margin-bottom:4px;">MEASURE</div><div style="font-size:10px;color:var(--muted2);line-height:1.5;">Quantify, test &amp; track AI risks with metrics &amp; monitoring</div></div>
+      <div style="background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.2);border-radius:8px;padding:12px;"><div style="font-size:11px;font-weight:700;color:#d8b4fe;margin-bottom:4px;">MANAGE</div><div style="font-size:10px;color:var(--muted2);line-height:1.5;">Treat, respond &amp; recover from AI risks with action plans</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="sec" id="s-advisor">
+  <div class="pcard">
+    <div class="ptitle"><div class="dot" style="background:var(--teal)"></div>AI GRC Advisor &mdash; Personalized to Joanne's Profile</div>
+    <div style="font-size:11px;color:var(--muted2);line-height:1.6;margin-bottom:12px;">
+      Your advisor is tuned to your 25+ years of GRC experience spanning financial services (SEC/SOX), medical, insurance, and international compliance. Ask anything about your active frameworks, audit prep, or AI governance challenges.
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px;">
+      <button class="qbtn" onclick="qa('How do I close the FedRAMP control gaps before the Feb 2026 3PAO audit?')">FedRAMP audit prep</button>
+      <button class="qbtn" onclick="qa('What NIST AI RMF GOVERN controls apply to ChatGPT and Copilot employee use?')">AI tool governance</button>
+      <button class="qbtn" onclick="qa('How does my PMP certification help with ISO 27001 project planning?')">PMP + ISO 27001</button>
+      <button class="qbtn" onclick="qa('What are the top HIPAA risks for AI systems used in medical sectors?')">HIPAA AI risks</button>
+      <button class="qbtn" onclick="qa('How does my SOX experience translate to ISO 27001 Annex A controls?')">SOX to ISO mapping</button>
+    </div>
+    <div class="ai-wrap">
+      <input class="ai-inp" id="ainp" type="text" placeholder="Ask your GRC advisor anything..." onkeydown="if(event.key==='Enter')ask()">
+      <button class="ai-btn" onclick="ask()">Ask</button>
+    </div>
+    <div class="ai-resp" id="aresp"><div id="atxt"></div></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function go(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('s-'+id).classList.add('on');
+  btn.classList.add('on');
+}
+function qa(q){document.getElementById('ainp').value=q;ask();}
+async function ask(){
+  const inp=document.getElementById('ainp');
+  const q=inp.value.trim(); if(!q)return;
+  const resp=document.getElementById('aresp');
+  const txt=document.getElementById('atxt');
+  resp.style.display='block';
+  txt.innerHTML='<div class="dots"><span></span><span></span><span></span></div>';
+  inp.value='';
+  const sys=`You are an expert AI GRC advisor personalized for Joanne Paul, a senior GRC professional with 25+ years experience. Her background:
+
+EXPERIENCE: Project Manager at RR Donnelley Financial (17 yrs, SEC/SOX filings), Owner of medical spa (health/safety compliance), International Trainer at PhiAcademy (global compliance training), Solar Sales (environmental compliance), Fire Claims Adjuster (risk assessment, fraud detection).
+
+CERTIFICATIONS: PMP (PMI), SAFe Scrum Master, AI & Agile Methodologies, Certified AI Product Owner (Duke University), Google AI Essentials, CompTIA Network+, AWS Cloud Practitioner, AI Governance Professional (AI GP).
+
+ACTIVE FRAMEWORKS: NIST AI RMF 1.0 (93%), ISO 27001 (87%), HIPAA (79%), FedRAMP Moderate (65% - priority gap), NIST CSF 2.0 (90%), SOX (95%), GDPR (82%).
+
+SECTORS: Banking, Insurance, Medical/Healthcare, Financial Services, IT Security, AI Systems.
+
+KEY SKILLS: Governance frameworks, internal auditing, SOX compliance, data privacy, IT governance, risk mitigation, ethics management, vendor management, incident management, training and awareness.
+
+KEY ACHIEVEMENTS: 50% operational efficiency gain, 30% claims resolution reduction, 90% customer retention.
+
+Provide concise, actionable, personalized GRC advice referencing her specific experience and certifications where relevant. Keep responses under 250 words.`;
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:[{role:'user',content:q}]})
+    });
+    const d=await r.json();
+    const t=d.content?.map(b=>b.text||'').join('')||'Unable to retrieve response.';
+    txt.innerHTML=t.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  }catch(e){txt.textContent='Connection error. Please try again.';}
+}
+</script>
